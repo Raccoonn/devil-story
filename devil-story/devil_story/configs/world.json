@@ -1,0 +1,13 @@
+{
+    "images" : {
+        "church" : [
+            "church.png",
+            0.2
+        ],
+        "fence" : [
+            "fence.png",
+            0.1
+        ]
+    },
+    "sounds" : {}
+}

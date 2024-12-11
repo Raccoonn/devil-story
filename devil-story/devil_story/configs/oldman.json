@@ -1,0 +1,34 @@
+{
+    "images" : {
+        "oldman" : [
+            "oldman.png",
+            0.18
+        ]
+    },
+    "sounds" : {
+        "voice-show-yourself" : [
+            "oldman-voice-show-yourself.mp3",
+            0.4
+        ],
+        "voice-ill-get-you" : [
+            "oldman-voice-ill-get-you.mp3",
+            0.4
+        ],
+        "voice-over-there" : [
+            "oldman-voice-over-there.mp3",
+            0.4
+        ],
+        "voice-running-away" : [
+            "oldman-voice-running-away.mp3",
+            0.4
+        ],
+        "voice-there-you-are" : [
+            "oldman-voice-there-you-are.mp3",
+            0.4
+        ],
+        "voice-where-are-you" : [
+            "oldman-voice-where-are-you.mp3",
+            0.4
+        ]
+    }
+}

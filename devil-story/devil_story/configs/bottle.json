@@ -1,0 +1,9 @@
+{
+    "images" : {
+        "bottle" : [
+            "bottle.png",
+            0.15
+        ]
+    },
+    "sounds" : {}
+}

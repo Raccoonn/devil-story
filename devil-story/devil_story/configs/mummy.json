@@ -1,0 +1,13 @@
+{
+    "images" : {
+        "mummy_alive" : [
+            "mummy.png",
+            0.6
+        ],
+        "mummy_dead" : [
+            "mummy_dead.png",
+            0.6
+        ]
+    },
+    "sounds" : {}
+}
