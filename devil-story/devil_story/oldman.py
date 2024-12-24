@@ -15,7 +15,7 @@ import tools
 
 
 class Oldman(pygame.sprite.Sprite):
-    def __init__(self, oldman_assets: dict, bullet_assets: dict, screen: pygame.display, playable_area_grid: list[list], grid_size) -> None:
+    def __init__(self, oldman_assets: dict, bullet_assets: dict, screen: pygame.Surface, playable_area_grid: list[list], grid_size) -> None:
         """Player character object
 
         Parameters

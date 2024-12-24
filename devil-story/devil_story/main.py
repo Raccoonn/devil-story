@@ -8,16 +8,48 @@ import time
 
 ## Third Party
 import pygame
+import matplotlib.pyplot as plt
+import networkx as nx
 
 ## Game modules
 from bottle import Bottle
 from bullet import Bullet
-from horse  import Horse
-from mummy  import Mummy
+from new_horse import Horse
+from new_mummy import Mummy
 from oldman import Oldman
 from level import Level
 
 import tools
+
+
+
+
+
+
+
+
+
+
+pygame.init()
+
+height, width = 800, 800
+
+
+
+screen = pygame.display.set_mode((height, width))
+pygame.display.set_caption('Devil Story')
+clock = pygame.time.Clock()
+
+
+## Load background and calculate playable area grid
+background = pygame.transform.scale(pygame.image.load('assets/images/grass.png').convert(), (height, width))
+
+
+
+
+
+grid_size = 20
+
 
 
 
@@ -53,7 +85,7 @@ def start_menu() -> None:
 
 
 
-def game_over_screen(message: str) -> None:
+def game_over_screen(message: str) -> bool:
     """Display game over screen
 
     Parameters
@@ -150,7 +182,8 @@ if __name__ == '__main__':
     oldman_assets = tools.load_sprite_assets('oldman')
     world_assets  = tools.load_sprite_assets('world')
 
-    world = Level(world_assets)
+    world = Level(width, height, grid_size, world_assets)
+
 
     grid_size = 20
     playable_area_grid = tools.create_playable_area_grid(height, width, 0, grid_size, world)
@@ -187,11 +220,11 @@ if __name__ == '__main__':
         if restart:
 
             ## Create groups
-            all_sprites_group = pygame.sprite.Group()
-            item_group = pygame.sprite.Group()
-            bullet_group = pygame.sprite.Group()
-            enemy_group = pygame.sprite.Group()
-            player_group = pygame.sprite.Group()
+            all_sprites_group = pygame.sprite.Group()    # type: pygame.sprite.Group
+            item_group = pygame.sprite.Group()           # type: pygame.sprite.Group
+            bullet_group = pygame.sprite.Group()         # type: pygame.sprite.Group
+            enemy_group = pygame.sprite.Group()          # type: pygame.sprite.Group
+            player_group = pygame.sprite.Group()         # type: pygame.sprite.Group
 
             group_dict = {
                           'all_sprites_group' : all_sprites_group,
@@ -205,7 +238,7 @@ if __name__ == '__main__':
             player = Oldman(oldman_assets, bullet_assets, screen, playable_area_grid, grid_size)
             player_group.add(player)
 
-            horse = Horse(horse_assets, screen, horse_playable_area_grid, grid_size)
+            horse = Horse(horse_assets, screen, world) 
             enemy_group.add(horse)
 
             bottle = Bottle(bottle_assets, screen, playable_area_grid)
@@ -213,12 +246,14 @@ if __name__ == '__main__':
             bottle_respawn = random.randint(10, 20)
             item_group.add(bottle)
  
-            mummy = Mummy(mummy_assets, screen, playable_area_grid, grid_size)
+            mummy = Mummy(mummy_assets, screen, world)
+            mummy.random_position(player.hitbox_rect.center, 300)
+            mummy.get_path(player.hitbox_rect.center)
             enemy_group.add(mummy)
  
 
             all_sprites_group.add(*[player, horse, bottle, mummy])
-
+ 
 
 
 

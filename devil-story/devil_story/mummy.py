@@ -11,14 +11,12 @@ import pygame
 
 ## Game modules
 import enemy
-import oldman
-import tools
 
 
 
 
 class Mummy(enemy.Enemy):
-    def __init__(self, mummy_assets: dict, screen: pygame.display, playable_area_grid: list[list], grid_size) -> None:
+    def __init__(self, mummy_assets: dict, screen: pygame.Surface, playable_area_grid: list[list], grid_size) -> None:
         """Horse enemy object
 
         Parameters
@@ -30,7 +28,7 @@ class Mummy(enemy.Enemy):
         playable_area_grid : list[list]
             Matrix of bools for playable area
         """
-        super().__init__(screen, playable_area_grid)
+        
         ## Assets
         self.alive_image = mummy_assets['images']['mummy_alive']
         self.dead_image = mummy_assets['images']['mummy_dead']
@@ -38,9 +36,9 @@ class Mummy(enemy.Enemy):
         self.base_image = self.image.copy()  # Store the original rotated image
 
         ## Stats
-        self.alive = True
+        self.living = True
         self.speed = 2
-        self.death_time = 0
+        self.death_time = 0.0
         self.death_cooldown = random.randint(15, 25)
         self.path = []  # Store the path calculated by A*
         self.path_update_timer = 0  # Timer to control path updates
@@ -53,10 +51,12 @@ class Mummy(enemy.Enemy):
         self.screen = screen
         self.rect = self.image.get_rect()
         self.hitbox_rect = self.base_image.get_rect(center=self.rect.center)
-        self.hitbox_rect.height = 40
-        self.hitbox_rect.width = 40
+        self.hitbox_rect.height = 10
+        self.hitbox_rect.width = 10
         self.playable_area_grid = playable_area_grid
-        self.grid_size = grid_size
+        grid_size = grid_size
+
+        super().__init__(screen, playable_area_grid, grid_size)
 
 
 
@@ -90,7 +90,7 @@ class Mummy(enemy.Enemy):
         if not self.spawned:
             self.spawn_randomly(player.pos, 150)
         else:
-            if self.path_update_timer <= 0 or not self.path:
+            if self.path_update_timer <= 0:
                 self.update_path_to_target(player.pos)
                 self.path_update_timer = 100
             else:
@@ -98,7 +98,7 @@ class Mummy(enemy.Enemy):
 
             ## Move and update health if alive
             self.move_towards_target_astar(player.pos, world)
-            self.draw_health_bar()
+            self.draw_health_bar(self.health, self.max_health)
 
             # Check if the enemy has reached the player's hitbox
             if self.rect.colliderect(player.rect):
@@ -106,15 +106,15 @@ class Mummy(enemy.Enemy):
             else:
                 # Check if the enemy's health is 0 or less, and kill it
 
-                if self.health <= 0 and self.alive:
-                    self.alive = False
+                if self.health <= 0 and self.living:
+                    self.living = False
                     self.death_time = time.time()
                     self.death_cooldown = random.randint(7, 15)
                     self.image = self.dead_image
                     self.base_image = self.image.copy()
                     
-                elif not self.alive and current_time >= self.death_time + self.death_cooldown:
-                    self.alive = True
+                elif not self.living and current_time >= self.death_time + self.death_cooldown:
+                    self.living = True
                     self.health = 100
                     self.image = self.alive_image
                     self.base_image = self.image.copy()

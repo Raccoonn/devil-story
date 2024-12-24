@@ -31,7 +31,7 @@ def load_sprite_assets(name: str) -> dict:
     with open(f'configs/{name}.json', 'r') as f:
         config = json.load(f)
 
-    assets = {'images' : {}, 'sounds' : {}}
+    assets = {'images' : {}, 'sounds' : {}}         # type: dict
 
     for key, val in config['images'].items():
         image = pygame.image.load(f'assets/images/{val[0]}').convert_alpha()
@@ -48,7 +48,7 @@ def load_sprite_assets(name: str) -> dict:
 
 
 
-def is_within_playable_area(position: tuple[int, int], world) -> bool:
+def is_within_playable_area(position: pygame.math.Vector2, world) -> bool:
     """Boolean check if position is within playable area
 
     Parameters

@@ -57,8 +57,8 @@ class Horse(enemy.Enemy):
         self.screen = screen
         self.rect = self.image.get_rect()
         self.hitbox_rect = self.base_image.get_rect(center=self.rect.center)
-        self.hitbox_rect.height = 40
-        self.hitbox_rect.width = 40
+        self.hitbox_rect.height = 15
+        self.hitbox_rect.width = 15
         self.playable_area_grid = playable_area_grid
         self.grid_size = grid_size
 
@@ -104,6 +104,8 @@ class Horse(enemy.Enemy):
         self.image = pygame.transform.rotate(self.base_image, self.rotation_angle)
         self.rect = self.image.get_rect(center=self.rect.center)
         self.hitbox_rect.center = self.rect.center  # Recalculate hitbox_rect position
+        self.hitbox_rect.height = 10
+        self.hitbox_rect.width = 10
         self.direction = pygame.math.Vector2(self.finish[0] - self.start[0], self.finish[1] - self.start[1]).normalize()
 
         self.rect.center = self.start
